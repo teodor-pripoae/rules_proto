@@ -52,8 +52,10 @@ depsgen(
 depsgen(
     name = "prebuilt_protoc",
     deps = [
-        ":prebuilt_protoc_linux",
-        ":prebuilt_protoc_osx",
+        ":prebuilt_protoc_linux_amd64",
+        ":prebuilt_protoc_linux_arm64",
+        ":prebuilt_protoc_osx_amd64",
+        ":prebuilt_protoc_osx_arm64",
         ":prebuilt_protoc_windows",
     ],
 )
@@ -305,7 +307,7 @@ proto_dependency(
 )
 
 proto_dependency(
-    name = "prebuilt_protoc_linux",
+    name = "prebuilt_protoc_linux_amd64",
     build_file_content = """
 filegroup(
     name = "protoc",
@@ -319,7 +321,21 @@ filegroup(
 )
 
 proto_dependency(
-    name = "prebuilt_protoc_osx",
+    name = "prebuilt_protoc_linux_arm64",
+    build_file_content = """
+filegroup(
+    name = "protoc",
+    srcs = ["bin/protoc"],
+    visibility = ["//visibility:public"],
+)
+""",
+    repository_rule = "http_archive",
+    sha256 = "b362acae78542872bb6aac8dba73aaf0dc6e94991b8b0a065d6c3e703fec2a8b",
+    urls = ["https://github.com/google/protobuf/releases/download/v3.20.1/protoc-3.20.1-linux-aarch_64.zip"],
+)
+
+proto_dependency(
+    name = "prebuilt_protoc_osx_amd64",
     build_file_content = """
 filegroup(
     name = "protoc",
@@ -330,6 +346,20 @@ filegroup(
     repository_rule = "http_archive",
     sha256 = "b4f36b18202d54d343a66eebc9f8ae60809a2a96cc2d1b378137550bbe4cf33c",
     urls = ["https://github.com/google/protobuf/releases/download/v3.20.1/protoc-3.20.1-osx-x86_64.zip"],
+)
+
+proto_dependency(
+    name = "prebuilt_protoc_osx_arm64",
+    build_file_content = """
+filegroup(
+    name = "protoc",
+    srcs = ["bin/protoc"],
+    visibility = ["//visibility:public"],
+)
+""",
+    repository_rule = "http_archive",
+    sha256 = "320308ce18c359564948754f51748de41cf02a4e7edf0cf47a805b9d38610f16",
+    urls = ["https://github.com/google/protobuf/releases/download/v3.20.1/protoc-3.20.1-osx-aarch_64.zip"],
 )
 
 proto_dependency(

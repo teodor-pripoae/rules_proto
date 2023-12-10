@@ -30,14 +30,23 @@ protoc(
 genrule(
     name = "protoc_exe",
     srcs = select({
-        "@bazel_tools//src/conditions:darwin": [
-            "@prebuilt_protoc_osx//:protoc",
+        "@bazel_tools//src/conditions:darwin_x86_64": [
+            "@prebuilt_protoc_osx_amd64//:protoc",
+        ],
+        "@bazel_tools//src/conditions:darwin_arm64": [
+            "@prebuilt_protoc_osx_amd64//:protoc",
         ],
         "@bazel_tools//src/conditions:windows": [
             "@prebuilt_protoc_windows//:protoc",
         ],
+        "@bazel_tools//src/conditions:linux_x86_64": [
+            "@prebuilt_protoc_linux_amd64//:protoc",
+        ],
+        "@bazel_tools//src/conditions:linux_aarch64": [
+            "@prebuilt_protoc_linux_arm64//:protoc",
+        ],
         "//conditions:default": [
-            "@prebuilt_protoc_linux//:protoc",
+            "@prebuilt_protoc_linux_amd64//:protoc",
         ],
     }),
     outs = ["protoc.exe"],
